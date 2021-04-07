@@ -1,0 +1,31 @@
+[submodule "imgui"]
+	path = imgui
+	url = git@github.com:ocornut/imgui.git
+	branch = docking
+[submodule "flecs"]
+	path = flecs
+	url = https://github.com/SanderMertens/flecs
+[submodule "sdl"]
+	path = sdl
+	url = git@github.com:libsdl-org/SDL.git
+[submodule "bgfx"]
+	path = bgfx
+	url = https://github.com/bkaradzic/bgfx
+[submodule "bimg"]
+	path = bimg
+	url = https://github.com/bkaradzic/bimg
+[submodule "bx"]
+	path = bx
+	url = https://github.com/bkaradzic/bx
+[submodule "glm"]
+	path = glm
+	url = https://github.com/g-truc/glm
+[submodule "flecs_imgui"]
+	path = flecs_imgui
+	url = https://github.com/mindrage/flecs_imgui
+[submodule "tracy"]
+	path = tracy
+	url = https://github.com/wolfpld/tracy
+[submodule "spdlog"]
+	path = spdlog
+	url = https://github.com/gabime/spdlog
