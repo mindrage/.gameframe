@@ -29,3 +29,6 @@
 [submodule "spdlog"]
 	path = spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "enet"]
+	path = enet
+	url = https://github.com/lsalzman/enet
