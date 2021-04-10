@@ -1,9 +1,9 @@
 @echo off
 cls
-set "SHADERC=%~dp0\build\bin\RelWithDebInfo\shaderc.exe"
+set "SHADERC=%~dp0\lib\shaderc.exe"
 
 :main
-    pushd .\data\shaders
+    pushd .\shaders
     call :compile_shaders vulkan
     call :compile_shaders opengl
     call :compile_shaders dx9
@@ -77,17 +77,17 @@ goto :eof
 
   for /R .\ %%f in (*.vs) do (
     set B=%%f
-    call %SHADERC% -f !B:%CD%\=! -o gen\%%~nxf.%1 %BGFX_PROFILE_VS%
+    call %SHADERC% -f !B:%CD%\=! -o gen\%%~nxf.%1 %BGFX_PROFILE_VS% --bin2c
   )
 
   for /R .\ %%f in (*.fs) do (
     set B=%%f
-    call %SHADERC% -f !B:%CD%\=! -o gen\%%~nxf.%1 %BGFX_PROFILE_FS%
+    call %SHADERC% -f !B:%CD%\=! -o gen\%%~nxf.%1 %BGFX_PROFILE_FS% --bin2c
   )
 
   for /R .\ %%f in (*.ps) do (
     set B=%%f
-    call %SHADERC% -f !B:%CD%\=! -o gen\%%~nxf.%1 %BGFX_PROFILE_CS%
+    call %SHADERC% -f !B:%CD%\=! -o gen\%%~nxf.%1 %BGFX_PROFILE_CS% --bin2c
   )
 
 goto :eof

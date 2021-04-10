@@ -1,36 +1,29 @@
 {
-    "configurations": [
-        {
-            "name": "Win32",
-            "includePath": [
-                "${workspaceFolder}/**",
-                "${workspaceFolder}/.vscode/3rdparty/enet/include/**",
-                "${workspaceFolder}/.vscode/3rdparty/cq/**",
-                "${workspaceFolder}/.vscode/3rdparty/raylib/src/**",
-                "${workspaceFolder}/.vscode/3rdparty/raylib/src/external/**",
-                "${workspaceFolder}/.vscode/3rdparty/imgui/**",
-                "${workspaceFolder}/.vscode/3rdparty/imgui_extra/**",
-                "${workspaceFolder}/.vscode/3rdparty/**",
-                "${workspaceFolder}/.vscode/3rdparty/spdlog/include/**"  
-            ],
-            "browse": {
-                "limitSymbolsToIncludedHeaders": true,
-                "path": [                
-                    "${workspaceFolder}/",
-                    "${workspaceFolder}/.vscode/3rdparty/build/bin/RelWithDebInfo"
-                ]
-            },
-            "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE"
-            ],
-            "windowsSdkVersion": "10.0.18362.0",
-            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.27.29110/bin/Hostx64/x64/cl.exe",
-            "cStandard": "c11",
-            "cppStandard": "c++20",
-            "intelliSenseMode": "msvc-x64"
-        }
-    ],
-    "version": 4
+  "configurations": [
+      {
+          "name": "Win32",
+          "includePath": [
+              "${workspaceFolder}/**",
+              "${workspaceFolder}/.gameframe/include/**"
+          ],
+          "browse": {
+              "limitSymbolsToIncludedHeaders": true,
+              "path": [                
+                  "${workspaceFolder}/",
+                  "${workspaceFolder}/.gameframe/include/"
+              ]
+          },
+          "defines": [
+              "_DEBUG",
+              "UNICODE",
+              "_UNICODE"
+          ],
+          "windowsSdkVersion": "10.0.18362.0",
+          "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.27.29110/bin/Hostx64/x64/cl.exe",
+          "cStandard": "c11",
+          "cppStandard": "c++20",
+          "intelliSenseMode": "msvc-x64"
+      }
+  ],
+  "version": 4
 }

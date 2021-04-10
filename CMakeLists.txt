@@ -15,19 +15,16 @@ project(bgfx)
 include( cmake/version.cmake )
 
 set_property( GLOBAL PROPERTY USE_FOLDERS ON )
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_COMPILE_PDB_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-add_subdirectory(spdlog)
-add_subdirectory(sdl)
-add_subdirectory(glm)
-add_subdirectory(flecs)
-add_subdirectory(enet)
+option(FLATBUFFERS_BUILD_TESTS "" OFF)
 
 
 # Makefile generators on apple need this flag to compile mixed objective/c++
@@ -36,7 +33,7 @@ if( APPLE AND NOT XCODE )
 endif()
 
 option( BGFX_BUILD_TOOLS      "Build bgfx tools."                             ON  )
-option( BGFX_BUILD_EXAMPLES   "Build bgfx examples."                          ON  )
+option( BGFX_BUILD_EXAMPLES   "Build bgfx examples."                          OFF )
 option( BGFX_INSTALL          "Create installation target."                   ON  )
 option( BGFX_INSTALL_EXAMPLES "Install examples and their runtimes."          OFF )
 option( BGFX_CUSTOM_TARGETS   "Include convenience custom targets."           ON  )
@@ -67,6 +64,18 @@ if( NOT BGFX_DIR )
 elseif( NOT IS_ABSOLUTE "${BGFX_DIR}")
 	get_filename_component(BGFX_DIR "${BGFX_DIR}" REALPATH BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 endif()
+
+add_subdirectory(spdlog)
+add_subdirectory(sdl)
+add_subdirectory(glm)
+add_subdirectory(flecs)
+add_subdirectory(enet)
+add_subdirectory(flatbuffers)
+
+include_directories(
+  tracy
+)
+
 
 if( BGFX_USE_OVR )
 	include( cmake/ovr.cmake )
@@ -214,6 +223,10 @@ set(
 )
 
 
-add_library(imgui ${IMGUI_SRC})
-target_link_libraries(imgui PUBLIC SDL2 bgfx)
-target_include_directories(imgui PUBLIC ./ ./imgui ./imgui_bgfx)
+add_library(imgui_bgfx ${IMGUI_SRC})
+target_link_libraries(imgui_bgfx PUBLIC SDL2 bgfx)
+target_include_directories(imgui_bgfx PUBLIC ./imgui ./imgui_bgfx)
+
+add_executable(01_cube ./examples/01_cube.cpp ./tracy/TracyClient.cpp)
+target_compile_definitions(01_cube PUBLIC TRACY_ENABLE)
+target_link_libraries(01_cube SDL2-static SDL2main bgfx bimg bx imgui_bgfx spdlog glm::glm)
