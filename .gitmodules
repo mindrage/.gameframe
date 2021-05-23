@@ -35,3 +35,9 @@
 [submodule "flatbuffers"]
 	path = flatbuffers
 	url = https://github.com/google/flatbuffers
+[submodule "bullet3"]
+	path = bullet3
+	url = https://github.com/bulletphysics/bullet3.git
+[submodule "raylib"]
+	path = raylib
+	url = https://github.com/raysan5/raylib.git

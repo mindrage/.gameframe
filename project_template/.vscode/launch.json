@@ -20,11 +20,8 @@
   "inputs": [
     {
       "id": "program",
-      "type": "pickString",
-      "options": [
-        "app"
-      ],
-      "default": "app",
+      "type": "promptString",
+      "default": "ira",
       "description": "What program do you want to run."
     }
   ]

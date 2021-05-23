@@ -2,15 +2,43 @@
 call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
 cls
 
+set "LIB_CONF=MinSizeRel"
 set "SHADERC=%~dp0\lib\shaderc.exe"
 set "FLATC=%~dp0\lib\flatc.exe"
-set "LIBS= bgfx.lib bx.lib bimg.lib shell32.lib opengl32.lib user32.lib gdi32.lib winmm.lib enet.lib ws2_32.lib imgui.lib advapi32.lib spdlog.lib"
+set LIBS=^
+ bgfx.lib bx.lib bimg.lib^
+ user32.lib shell32.lib oleaut32.lib^
+ opengl32.lib setupapi.lib version.lib imm32.lib astc-codec.lib ole32.lib^
+ SDL2main.lib SDL2.lib user32.lib gdi32.lib winmm.lib^
+ BulletCollision_%LIB_CONF%.lib LinearMath_%LIB_CONF%.lib BulletDynamics_%LIB_CONF%.lib^
+ enet.lib ws2_32.lib imgui_bgfx.lib advapi32.lib spdlog.lib
+
+
+SET RAY_LIBS=raylib_%LIB_CONF%.lib glfw3_%LIB_CONF%.lib opengl32.lib gdi32.lib user32.lib shell32.lib winmm.lib
 
 :main
   :: call :compile_schemas data\schemas data\gen\
+  call :move_dlls
+  :: call :build_shaders .\shaders
   call :compile_project
 
   echo [End of Build]
+goto :eof
+
+
+:build_shaders
+  pushd .\%1
+    call :compile_shaders vulkan
+    call :compile_shaders opengl
+    call :compile_shaders dx9
+    call :compile_shaders dx11
+    call :compile_shaders dx12
+  popd
+goto :eof
+
+
+:move_dlls 
+  robocopy %~dp0\lib\ %~dp0\bin\ *.dll /S /NFL /NDL /NP /NS /NC /NJS /NJH
 goto :eof
 
 :compile_project
@@ -20,11 +48,24 @@ goto :eof
     set C=%%~nf
     set D=!B:%CD%\=!
     set E=!C:~0,-8!
-    if /I not "!C:~0,1!"=="." (
+    if /I not "!D:~0,1!"=="." (
       call :clear_folders !E!
       echo !B:%CD%\=! >> .vscode\bin\!E!.cache
       call :add_folder !E! ./
-      call :compile_program !E!
+      call :compile_program !E! !C! "%LIBS%"
+    )
+  )
+
+  for /R ./ %%f in (*.ray.cpp) do (
+    set B=%%f
+    set C=%%~nf
+    set D=!B:%CD%\=!
+    set E=!C:~0,-4!
+    if /I not "!D:~0,1!"=="." (
+      call :clear_folders !E!
+      echo !B:%CD%\=! >> .vscode\bin\!E!.cache
+      call :add_folder !E! ./
+      call :compile_program !E! !C! "%RAY_LIBS%"
     )
   )
 
@@ -67,6 +108,7 @@ goto :eof
 
 :: (%1 configuration)
 :compile_program
+  echo %1 %2 %3
 
  echo [Build] Compiling %1
  
@@ -76,17 +118,19 @@ goto :eof
 
  :: Release via Static with debug info
  cl @.vscode/bin/%1.cache^
+ .vscode/include/flecs/flecs.c^
  /I ./^
  /I .vscode/include/^
  /I .vscode/include/SDL^
  /I .vscode/include/imgui^
+ /I .vscode/include/bullet^
  /MD /Os /Oi /GL /Gy /JMC /FS /Zi /nologo /EHsc /std:c++latest^
  /Fe.vscode/bin/%1^
  /Fo.vscode/obj/%1/^
  /Fd.vscode/bin/%1^
  /link /DEBUG:FULL /SUBSYSTEM:CONSOLE /ENTRY:mainCRTStartup^
  /LIBPATH:.vscode/lib/^
- %LIBS%
+ %~3
 
  echo Finished compilation.
 goto :eof

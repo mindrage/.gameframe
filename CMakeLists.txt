@@ -22,7 +22,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_COMPILE_PDB_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+# set(CMAKE_COMPILE_PDB_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 option(FLATBUFFERS_BUILD_TESTS "" OFF)
 
@@ -65,12 +65,16 @@ elseif( NOT IS_ABSOLUTE "${BGFX_DIR}")
 	get_filename_component(BGFX_DIR "${BGFX_DIR}" REALPATH BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 endif()
 
+OPTION(BUILD_CPU_DEMOS "" OFF)
+SET(USE_MSVC_RUNTIME_LIBRARY_DLL ON)
 add_subdirectory(spdlog)
 add_subdirectory(sdl)
 add_subdirectory(glm)
 add_subdirectory(flecs)
 add_subdirectory(enet)
 add_subdirectory(flatbuffers)
+add_subdirectory(bullet3)
+add_subdirectory(raylib)
 
 include_directories(
   tracy
@@ -223,7 +227,7 @@ set(
 )
 
 
-add_library(imgui_bgfx ${IMGUI_SRC})
+add_library(imgui_bgfx STATIC ${IMGUI_SRC})
 target_link_libraries(imgui_bgfx PUBLIC SDL2 bgfx)
 target_include_directories(imgui_bgfx PUBLIC ./imgui ./imgui_bgfx)
 

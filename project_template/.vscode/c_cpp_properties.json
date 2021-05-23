@@ -4,13 +4,19 @@
           "name": "Win32",
           "includePath": [
               "${workspaceFolder}/**",
-              "${workspaceFolder}/.gameframe/include/**"
+              "${workspaceFolder}/.vscode/include/**",
+              "${workspaceFolder}/.vscode/include/SDL/**",
+              "${workspaceFolder}/.vscode/include/imgui/**",
+              "${workspaceFolder}/.vscode/include/bullet/**"
           ],
           "browse": {
               "limitSymbolsToIncludedHeaders": true,
               "path": [                
-                  "${workspaceFolder}/",
-                  "${workspaceFolder}/.gameframe/include/"
+                "${workspaceFolder}/",
+                "${workspaceFolder}/.vscode/include/",
+                "${workspaceFolder}/.vscode/include/SDL/",
+                "${workspaceFolder}/.vscode/include/imgui/",
+                "${workspaceFolder}/.vscode/include/bullet/"
               ]
           },
           "defines": [
